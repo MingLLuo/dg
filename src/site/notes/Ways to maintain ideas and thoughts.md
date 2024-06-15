@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Ways to maintain ideas and thoughts/","created":"2024-06-15T20:29:22.371+08:00","updated":"2024-06-15T20:53:09.008+08:00"}
+{"dg-publish":true,"dg-permalink":"\"ways-to-maintain\"","permalink":"/\"ways-to-maintain\"/","created":"2024-06-15T20:29:22.371+08:00","updated":"2024-06-15T20:56:22.038+08:00"}
 ---
 
 
