@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-15T20:51:55.490+08:00"}
+{"dg-publish":true,"permalink":"/Welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-17T23:34:21.282+08:00"}
 ---
 
 ## Why
@@ -8,3 +8,9 @@
 
 ## Timeline
 - [[Ways to maintain ideas and thoughts\|Ways to maintain ideas and thoughts]], with my personal used tools
+
+## Knowledge
+- [[Homomorphic Encryption\|Homomorphic Encryption]]
+- [[Lambda Calculus\|Lambda Calculus]]
+- [[TCP vs UDP\|TCP vs UDP]]
+- 
