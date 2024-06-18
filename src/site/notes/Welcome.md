@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-18T16:01:53.269+08:00"}
+{"dg-publish":true,"permalink":"/Welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-18T20:19:45.850+08:00"}
 ---
 
 ## Why
@@ -14,3 +14,5 @@
 - [[Lambda Calculus\|Lambda Calculus]]
 - [[TCP vs UDP\|TCP vs UDP]]
 - [[Public Key Encryption(PKE)\|Public Key Encryption(PKE)]]
+- [[Semantic Security\|Semantic Security]]
+- [[Simulation in Security Proof\|Simulation in Security Proof]]
