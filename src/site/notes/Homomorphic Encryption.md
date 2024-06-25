@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-18T16:57:25.975+08:00"}
+{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-21T16:45:15.447+08:00"}
 ---
 
 
@@ -32,6 +32,15 @@ https://dualitytech.com/blog/bootstrapping-in-fully-homomorphic-encryption-fhe/
 2. Compute generators $h_1, \ldots, h_t$ of $H$ by encrypting $0$'s
 3. Challenge ciphertext $c^* \in H$ iff $|\langle h_1, \ldots, h_k \rangle| = |\langle c^*, h_1, \ldots, h_k \rangle|$
 
+### Why Noise Accumulates in FHE
+1. **Encryption Process**:
+-  When a plaintext message is encrypted using FHE, a certain amount of noise is deliberately added to the ciphertext. This noise is essential for ensuring the security of the encryption scheme. The initial noise level is typically small enough that the ciphertext can be decrypted correctly.
+2. **Homomorphic Operations**:
+- Homomorphic operations (addition and multiplication) on ciphertexts are performed in such a way that the operations correspond to the same operations on the underlying plaintexts. However, these operations also increase the noise level in the resulting ciphertext.
+- Each homomorphic addition increases the noise linearly.
+- Each homomorphic multiplication increases the noise quadratically. This is because the noise in the product ciphertext is roughly the product of the noise levels of the two operand ciphertexts.
+3. **Repeated Operations**:
+- As more homomorphic operations are performed, the noise continues to accumulate. After many operations, the noise level can become so high that it interferes with the decryption process, making it impossible to recover the original plaintext correctly.
 ### Bootstrapping
 Bootstrapping in Fully Homomorphic Encryption (FHE) is a technique used to refresh the ciphertext to prevent it from becoming too noisy during computation. 
 - In FHE, ciphertexts accumulate noise as they undergo homomorphic operations. If the noise level becomes too high, the ciphertext can no longer be decrypted correctly. 
@@ -51,3 +60,4 @@ Bootstrapping helps to reset this noise, allowing more computations to be perfor
 4.	Benefits of Bootstrapping:
 	- Unlimited Computations: By periodically applying bootstrapping, it is possible to perform an unlimited number of homomorphic operations without worrying about the noise level becoming too high.
 	- Maintain Ciphertext Integrity: Bootstrapping ensures that the ciphertext remains valid and decryptable throughout extensive computations.
+

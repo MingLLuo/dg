@@ -1,7 +1,6 @@
 ---
-{"dg-publish":true,"dg-permalink":"ways-to-maintain","permalink":"/ways-to-maintain/","created":"2024-06-15T20:29:22.371+08:00","updated":"2024-06-15T20:58:59.348+08:00"}
+{"dg-publish":true,"dg-permalink":"ways-to-maintain","permalink":"/ways-to-maintain/","created":"2024-06-15T20:29:22.371+08:00","updated":"2024-06-25T12:05:50.185+08:00"}
 ---
-
 
 As a programmer, we usually need to organize our knowledge base, which flies out many choices.
 - Writing a blog to share ideas, where you can share daily life or some technical skills.

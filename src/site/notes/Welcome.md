@@ -1,11 +1,9 @@
 ---
-{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-20T14:24:53.745+08:00"}
+{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-06-25T12:07:03.755+08:00"}
 ---
 
 ## Why
-偶然间发现Digital Garden这个概念，顺藤摸瓜找到Obsidian对应的插件，重新开了一个页面，准备
-从零开始维护一下自己的知识库
-
+x
 ## Timeline
 - [[Ways to maintain ideas and thoughts\|Ways to maintain ideas and thoughts]], with my personal used tools
 
@@ -19,5 +17,6 @@
 - [[Distributed Concept\|Distributed Concept]]
 - [[Raft\|Raft]]
 - [[ZooKeeper\|ZooKeeper]]
-- [[PAKE\|PAKE]]
-- 
+- [[Password Authenticated Key Exchange(PAKE)\|Password Authenticated Key Exchange(PAKE)]]
+- [[Offline Dictionary Attack\|Offline Dictionary Attack]]
+- [[Differential Privacy\|Differential Privacy]]

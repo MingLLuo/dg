@@ -1,11 +1,11 @@
 ---
-{"dg-publish":true,"permalink":"/zoo-keeper/","created":"2024-06-20T13:21:22.152+08:00","updated":"2024-06-20T14:22:28.913+08:00"}
+{"dg-publish":true,"permalink":"/zoo-keeper/","created":"2024-06-20T13:21:22.152+08:00","updated":"2024-06-25T12:05:31.702+08:00"}
 ---
 
-#Distributed_System 
+#Distributed_System #ZooKeeper 
 Zookeeper is a *coordination kernel* which can build new primitives(like distributed locks or leader election).
 ### Overview
-ZooKeeper exposes a [[wait-free interface\|wait-free interface]] and an [[event-driven mechanism\|event-driven mechanism]] to provide a simple and high-performance kernel. 
+ZooKeeper exposes a [[Wait-free interface\|wait-free interface]] and an [[Event-driven mechanism\|event-driven mechanism]] to provide a simple and high-performance kernel. 
 Since it doesn’t use blocking primitives, slow clients do not negatively impact faster clients. 
 - **Why Slow Clients Do Not Negatively Impact Faster Clients**
 	1. **Non-blocking Operations**: Each client’s request is handled independently, ensuring that a slow client’s operation does not prevent a fast client from completing its own operations.
@@ -167,7 +167,7 @@ public class ReadWriteLock {
 ```
 
 ### Architecture
-Zookeeper maintains an [[in-memory database\|in-memory database]] containing the entire data tree. Updates are efficiently logged to disk before being applied to the in-memory database.
+Zookeeper maintains an [[In-memory database\|in-memory database]] containing the entire data tree. Updates are efficiently logged to disk before being applied to the in-memory database.
 
 Every Zookeeper server serves clients. Servers first prepare requests for execution in the Request Processor. Read requests are serviced from the local replica of each server database while write requests are processed using an agreement protocol (atomic broadcast).
 
@@ -177,7 +177,7 @@ Write requests are forwarded to a single server (leader) and the rest of the ser
 
 #### Request Processor
 *Request processor* transforms a client request, that changes state, into a transaction. 
-Unlike client requests, transactions are **[[idempotent operations\|idempotent operations]]**. On receiving a write request, the leader calculates what the state of the system will be when the write is applied and transforms it into a transaction that captures this new state.
+Unlike client requests, transactions are **[[Idempotent Operations\|idempotent operations]]**. On receiving a write request, the leader calculates what the state of the system will be when the write is applied and transforms it into a transaction that captures this new state.
 
 Zookeeper guarantees that the local replicas never diverge, however, it is possible that at any point in time some replicas may have applied more transactions than others.
 #### Atomic Broadcast
