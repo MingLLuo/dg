@@ -1,7 +1,6 @@
 ---
-{"dg-publish":true,"dg-permalink":"lambda","permalink":"/lambda/","created":"2024-06-16T02:13:47.870+08:00","updated":"2024-06-17T23:35:32.102+08:00"}
+{"dg-publish":true,"dg-permalink":"lambda","permalink":"/lambda/","created":"2024-06-16T02:13:47.870+08:00","updated":"2024-06-25T12:26:50.422+08:00"}
 ---
-
 
 #PL #Logic
 - $\alpha$-equivalent/conversion

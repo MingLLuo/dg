@@ -1,7 +1,8 @@
 ---
-{"dg-publish":true,"permalink":"/idempotent-operations/","created":"2024-06-20T14:06:19.423+08:00","updated":"2024-06-20T14:07:19.257+08:00"}
+{"dg-publish":true,"permalink":"/idempotent-operations/","created":"2024-06-20T14:06:19.423+08:00","updated":"2024-06-25T12:26:38.512+08:00"}
 ---
 
+#ZooKeeper 
 An **idempotent** operation is one that can be applied multiple times without changing the result beyond the initial application. In other words, performing the operation once or many times yields the same outcome.
 
 Example:

@@ -1,7 +1,6 @@
 ---
-{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-21T16:45:15.447+08:00"}
+{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-25T12:26:31.845+08:00"}
 ---
-
 
 #FHE 
 ### Definition of HE

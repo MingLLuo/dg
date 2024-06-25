@@ -1,7 +1,8 @@
 ---
-{"dg-publish":true,"permalink":"/privacy-budget/","created":"2024-06-25T10:16:25.392+08:00","updated":"2024-06-25T11:32:36.829+08:00"}
+{"dg-publish":true,"permalink":"/privacy-budget/","created":"2024-06-25T10:16:25.392+08:00","updated":"2024-06-25T12:26:57.413+08:00"}
 ---
 
+#Differential_Privacy 
 The Apple differential privacy implementation incorporates the concept of a **perdonation privacy budget** (quantified by the parameter epsilon), and sets a strict limit on the number of contributions from a user in order to preserve their privacy. 
 The reason is that the slightly-biased noise used in differential privacy tends to average out over a large numbers of contributions, making it theoretically possible to determine information about a user’s activity over a large number of observations from a single user.
 

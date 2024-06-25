@@ -1,7 +1,8 @@
 ---
-{"dg-publish":true,"permalink":"/in-memory-database/","created":"2024-06-20T13:56:32.131+08:00","updated":"2024-06-20T14:02:54.373+08:00"}
+{"dg-publish":true,"permalink":"/in-memory-database/","created":"2024-06-20T13:56:32.131+08:00","updated":"2024-06-25T12:26:47.083+08:00"}
 ---
 
+#ZooKeeper 
 An **in-memory database (IMDB)** is a type of database management system that primarily relies on main memory (RAM) for data storage, as opposed to traditional databases that store data on disk. This design allows for significantly *faster data retrieval and manipulation* due to the high-speed nature of RAM compared to disk storage.
 
 
