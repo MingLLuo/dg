@@ -18,7 +18,7 @@ x
 - [[Distributed/Raft\|Raft]]
 - [[Distributed/ZooKeeper\|ZooKeeper]]
 - [[Cryptography/Password Authenticated Key Exchange(PAKE)\|Password Authenticated Key Exchange(PAKE)]]
-- [[Offline Dictionary Attack\|Offline Dictionary Attack]]
+- [[Cryptography/Offline Dictionary Attack\|Offline Dictionary Attack]]
 - [[Cryptography/Differential Privacy\|Differential Privacy]]
 - [[PL/Functional Programming\|Functional Programming]]
 - 
