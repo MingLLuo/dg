@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-16T00:57:18.144+08:00"}
+{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-16T21:42:05.214+08:00"}
 ---
 
 ## Timeline
@@ -12,7 +12,7 @@
 - [[Distributed/ZooKeeper\|ZooKeeper]]
 - [[PL/Functional Programming\|Functional Programming]]
 
-### Cryptography Things\
+### Cryptography Things
 - [[Cryptography/Homomorphic Encryption\|Homomorphic Encryption]]
 - [[Cryptography/TCP vs UDP\|TCP vs UDP]]
 - [[Cryptography/Public Key Encryption(PKE)\|Public Key Encryption(PKE)]]
