@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"lambda","permalink":"/lambda/","created":"2024-06-16T02:13:47.870+08:00","updated":"2024-06-25T15:23:13.550+08:00"}
+{"dg-publish":true,"dg-permalink":"lambda","permalink":"/lambda/","noteIcon":"","created":"2024-06-16T02:13:47.870+08:00","updated":"2024-06-25T15:23:13.550+08:00"}
 ---
 
 #PL #Logic

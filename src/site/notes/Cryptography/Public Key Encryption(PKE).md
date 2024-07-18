@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"pke","permalink":"/pke/","created":"2024-06-18T16:01:53.232+08:00","updated":"2024-06-18T19:02:40.078+08:00"}
+{"dg-publish":true,"dg-permalink":"pke","permalink":"/pke/","noteIcon":"","created":"2024-06-18T16:01:53.232+08:00","updated":"2024-06-18T19:02:40.078+08:00"}
 ---
 
 #Cryptography #PKE

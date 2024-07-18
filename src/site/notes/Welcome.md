@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-16T21:42:05.214+08:00"}
+{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"noteIcon":"","created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-16T21:42:05.214+08:00"}
 ---
 
 ## Timeline

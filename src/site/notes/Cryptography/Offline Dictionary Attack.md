@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/offline-dictionary-attack/","created":"2024-06-26T13:30:36.974+08:00","updated":"2024-07-07T15:38:17.847+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/offline-dictionary-attack/","noteIcon":"","created":"2024-06-26T13:30:36.974+08:00","updated":"2024-07-07T15:38:17.847+08:00"}
 ---
 
 

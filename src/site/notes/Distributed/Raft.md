@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/distributed/raft/","created":"2024-06-24T12:49:36.476+08:00","updated":"2024-06-25T12:06:25.734+08:00"}
+{"dg-publish":true,"permalink":"/distributed/raft/","noteIcon":"","created":"2024-06-24T12:49:36.476+08:00","updated":"2024-06-25T12:06:25.734+08:00"}
 ---
 
 #Distributed_System #Raft

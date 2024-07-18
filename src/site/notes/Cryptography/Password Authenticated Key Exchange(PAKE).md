@@ -1,7 +1,6 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/password-authenticated-key-exchange-pake/","created":"2024-06-20T14:24:53.736+08:00","updated":"2024-07-16T21:42:16.972+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/password-authenticated-key-exchange-pake/","noteIcon":"","created":"2024-06-20T14:24:53.736+08:00","updated":"2024-07-18T20:32:26.755+08:00"}
 ---
-
 
 #Cryptography #AKE #PAKE 
 

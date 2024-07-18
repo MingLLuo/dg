@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/opaque/","created":"2024-07-13T12:15:18.574+08:00","updated":"2024-07-17T14:28:01.538+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/opaque/","noteIcon":"","created":"2024-07-13T12:15:18.574+08:00","updated":"2024-07-17T14:28:01.538+08:00"}
 ---
 
 > Following content all based in OPAQUE Draft, and explained in chinese.

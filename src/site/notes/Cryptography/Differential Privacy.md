@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/differential-privacy/","created":"2024-06-24T23:26:44.927+08:00","updated":"2024-06-26T13:18:46.508+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/differential-privacy/","noteIcon":"","created":"2024-06-24T23:26:44.927+08:00","updated":"2024-06-26T13:18:46.508+08:00"}
 ---
 
 #Differential_Privacy 

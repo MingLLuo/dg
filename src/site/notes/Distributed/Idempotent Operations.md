@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/distributed/idempotent-operations/","created":"2024-06-20T14:06:19.423+08:00","updated":"2024-06-25T12:26:38.512+08:00"}
+{"dg-publish":true,"permalink":"/distributed/idempotent-operations/","noteIcon":"","created":"2024-06-20T14:06:19.423+08:00","updated":"2024-06-25T12:26:38.512+08:00"}
 ---
 
 #ZooKeeper 

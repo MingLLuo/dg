@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/key-stretching-function-ksf/","created":"2024-07-16T21:58:47.053+08:00","updated":"2024-07-16T22:01:21.401+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/key-stretching-function-ksf/","noteIcon":"","created":"2024-07-16T21:58:47.053+08:00","updated":"2024-07-16T22:01:21.401+08:00"}
 ---
 
 Key Stretching Function (KSF) is *a slow and expensive cryptographic hash function* with the following API

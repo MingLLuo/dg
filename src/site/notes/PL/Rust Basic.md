@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/rust-basic/","created":"2024-07-16T00:57:20.965+08:00","updated":"2024-07-16T13:31:07.611+08:00"}
+{"dg-publish":true,"permalink":"/pl/rust-basic/","noteIcon":"","created":"2024-07-16T00:57:20.965+08:00","updated":"2024-07-16T13:31:07.611+08:00"}
 ---
 
 

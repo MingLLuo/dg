@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/privacy-budget/","created":"2024-06-25T10:16:25.392+08:00","updated":"2024-06-25T12:26:57.413+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/privacy-budget/","noteIcon":"","created":"2024-06-25T10:16:25.392+08:00","updated":"2024-06-25T12:26:57.413+08:00"}
 ---
 
 #Differential_Privacy 

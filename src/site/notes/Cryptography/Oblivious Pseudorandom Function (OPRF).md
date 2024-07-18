@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/oblivious-pseudorandom-function-oprf/","created":"2024-07-16T19:27:53.045+08:00","updated":"2024-07-16T19:45:30.250+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/oblivious-pseudorandom-function-oprf/","noteIcon":"","created":"2024-07-16T19:27:53.045+08:00","updated":"2024-07-18T22:14:36.647+08:00"}
 ---
 
 #Cryptography #OPRF #PRF 
@@ -19,7 +19,7 @@ Finally, the following shared APIs and parameters:
 - Noe: The size of a serialized OPRF group element output from SerializeElement.
 - Nok: The size of an OPRF private key as output from DeriveKeyPair.
 
-### Simple Routine using OPRRF Protocol
+### Simple Routine using OPRF Protocol
 - G: a prime-order group implementing the API described [Section 2.1](https://www.rfc-editor.org/rfc/rfc9497#pog)
 - contextString: a `PublicInput` domain separation tag constructed during context setup
 - skS and pkS: a Scalar and Element representing the private and public keys configured for the client and server
@@ -111,6 +111,8 @@ def Evaluate(skS, input):
               "Finalize"
   return Hash(hashInput)
 ```
+
+#### DH-OPRF
+![Oblivious Pseudorandom Function (OPRF)_DH_OPRF.png](/img/user/Cryptography/attachments/Oblivious%20Pseudorandom%20Function%20(OPRF)_DH_OPRF.png)
 ### Reference
 - [RFC 9497 Oblivious Pseudorandom Functions (OPRFs) Using Prime-Order Groups](https://www.rfc-editor.org/rfc/rfc9497)
-- 

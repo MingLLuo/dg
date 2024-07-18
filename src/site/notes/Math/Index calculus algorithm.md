@@ -1,0 +1,6 @@
+---
+{"dg-publish":true,"permalink":"/math/index-calculus-algorithm/","noteIcon":"","created":"2024-07-18T19:48:23.012+08:00","updated":"2024-07-18T19:51:21.396+08:00"}
+---
+
+In [computational number theory](https://en.wikipedia.org/wiki/Computational_number_theory "Computational number theory"), the **index calculus algorithm** is a [probabilistic](https://en.wikipedia.org/wiki/Probabilistic "Probabilistic") [algorithm](https://en.wikipedia.org/wiki/Algorithm "Algorithm") for computing [discrete logarithms](https://en.wikipedia.org/wiki/Discrete_logarithm "Discrete logarithm"). Dedicated to the discrete logarithm $\displaystyle (\mathbb {Z} /q\mathbb {Z} )^{*}$where ${\displaystyle q}$ is a prime, index calculus leads to a family of algorithms adapted to finite fields and to some families of elliptic curves. 
+The algorithm collects relations among the discrete logarithms of small primes, computes them by a linear algebra procedure and finally expresses the desired discrete logarithm with respect to the discrete logarithms of small primes.

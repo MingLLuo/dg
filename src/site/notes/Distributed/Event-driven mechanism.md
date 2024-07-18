@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/distributed/event-driven-mechanism/","created":"2024-06-20T13:35:32.749+08:00","updated":"2024-06-25T12:05:21.783+08:00"}
+{"dg-publish":true,"permalink":"/distributed/event-driven-mechanism/","noteIcon":"","created":"2024-06-20T13:35:32.749+08:00","updated":"2024-06-25T12:05:21.783+08:00"}
 ---
 
 #ZooKeeper

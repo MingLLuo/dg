@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/universal-composable-security/","created":"2024-07-13T01:14:20.439+08:00","updated":"2024-07-13T01:37:44.016+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/universal-composable-security/","noteIcon":"","created":"2024-07-13T01:14:20.439+08:00","updated":"2024-07-13T01:37:44.016+08:00"}
 ---
 
 

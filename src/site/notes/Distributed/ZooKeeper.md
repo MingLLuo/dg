@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/distributed/zoo-keeper/","created":"2024-06-20T13:21:22.152+08:00","updated":"2024-06-26T13:19:22.866+08:00"}
+{"dg-publish":true,"permalink":"/distributed/zoo-keeper/","noteIcon":"","created":"2024-06-20T13:21:22.152+08:00","updated":"2024-06-26T13:19:22.866+08:00"}
 ---
 
 #Distributed_System #ZooKeeper 

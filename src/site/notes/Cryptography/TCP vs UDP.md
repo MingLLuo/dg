@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"tcp-vs-udp","permalink":"/tcp-vs-udp/","created":"2024-06-17T23:34:21.276+08:00","updated":"2024-06-18T00:07:07.227+08:00"}
+{"dg-publish":true,"dg-permalink":"tcp-vs-udp","permalink":"/tcp-vs-udp/","noteIcon":"","created":"2024-06-17T23:34:21.276+08:00","updated":"2024-06-18T00:07:07.227+08:00"}
 ---
 
 #Network #HTTP #TCP #UDP

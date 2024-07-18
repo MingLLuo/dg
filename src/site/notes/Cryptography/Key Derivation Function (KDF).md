@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/key-derivation-function-kdf/","created":"2024-07-16T21:50:34.903+08:00","updated":"2024-07-16T21:56:07.217+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/key-derivation-function-kdf/","noteIcon":"","created":"2024-07-16T21:50:34.903+08:00","updated":"2024-07-16T21:56:07.217+08:00"}
 ---
 
 #Cryptography  #KDF

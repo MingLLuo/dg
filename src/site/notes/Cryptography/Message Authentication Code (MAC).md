@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/message-authentication-code-mac/","created":"2024-07-16T21:56:22.369+08:00","updated":"2024-07-16T21:56:53.058+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/message-authentication-code-mac/","noteIcon":"","created":"2024-07-16T21:56:22.369+08:00","updated":"2024-07-16T21:56:53.058+08:00"}
 ---
 
 #Cryptography #MAC

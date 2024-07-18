@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/distributed/distributed-concept/","created":"2024-06-24T12:49:41.044+08:00","updated":"2024-06-25T12:04:58.962+08:00"}
+{"dg-publish":true,"permalink":"/distributed/distributed-concept/","noteIcon":"","created":"2024-06-24T12:49:41.044+08:00","updated":"2024-06-25T12:04:58.962+08:00"}
 ---
 
 #Distributed_System 

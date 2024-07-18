@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/simulation-based-security/","created":"2024-07-13T01:18:21.567+08:00","updated":"2024-07-13T01:25:42.565+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/simulation-based-security/","noteIcon":"","created":"2024-07-13T01:18:21.567+08:00","updated":"2024-07-13T01:25:42.565+08:00"}
 ---
 
 Unlike game-based security analyses, simulation-based security analyses compare a real-world cryptographic protocol to an idealized abstraction of functionality.

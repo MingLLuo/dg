@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-25T12:26:31.845+08:00"}
+{"dg-publish":true,"dg-permalink":"he","permalink":"/he/","noteIcon":"","created":"2024-06-16T01:46:43.272+08:00","updated":"2024-06-25T12:26:31.845+08:00"}
 ---
 
 #FHE 

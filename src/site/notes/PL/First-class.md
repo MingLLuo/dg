@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/first-class/","created":"2024-06-25T14:32:50.154+08:00","updated":"2024-06-25T14:39:30.199+08:00"}
+{"dg-publish":true,"permalink":"/pl/first-class/","noteIcon":"","created":"2024-06-25T14:32:50.154+08:00","updated":"2024-06-25T14:39:30.199+08:00"}
 ---
 
 #PL #First_Class 

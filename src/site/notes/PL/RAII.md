@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/raii/","created":"2024-07-16T11:49:08.278+08:00","updated":"2024-07-16T11:51:31.865+08:00"}
+{"dg-publish":true,"permalink":"/pl/raii/","noteIcon":"","created":"2024-07-16T11:49:08.278+08:00","updated":"2024-07-16T11:51:31.865+08:00"}
 ---
 
 #Rust 
