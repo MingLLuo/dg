@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/cryptography/opaque/","noteIcon":"","created":"2024-07-13T12:15:18.574+08:00","updated":"2024-07-17T14:28:01.538+08:00"}
+{"dg-publish":true,"permalink":"/cryptography/opaque/","noteIcon":"","created":"2024-07-13T12:15:18.574+08:00","updated":"2024-07-19T13:32:52.382+08:00"}
 ---
 
 > Following content all based in OPAQUE Draft, and explained in chinese.
@@ -24,7 +24,7 @@ The name OPAQUE is a homonym of O-PAKE where O is for Oblivious.
 - Server可以为不同的Client分配不同的seed
 
 #### 注册
-- OPAQUE的注册环节是唯一一个需要有confidentiality和integrity保证的环节，可以是基于物理通道、Out-of-band management、基于PKI等
+- OPAQUE的注册环节是唯一一个需要有confidentiality和integrity保证的环节，可以基于物理信道、Out-of-band management、PKI等
 - Client需要输入其凭据（包含密码和uid），Server需要输入其参数（如私钥和其他信息）
 - 在此阶段，Client会导出`export_key`
 	- The client output of this stage is a single value `export_key` that the client may use for application-specific purposes, e.g., as a symmetric key used to encrypt additional information for storage on the server. The server does not have access to this `export_key`.
