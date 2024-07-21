@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-21T16:14:05.196+08:00"}
+{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-22T00:05:25.115+08:00"}
 ---
 
 #OCaml #PL 
@@ -252,8 +252,70 @@ module type FIFO_WITH_OPT =
   end
 ```
 3. *Functors* are “functions” from modules to modules. Functors let you create parameterized modules and then provide other modules as parameter(s) to get a specific implementation.
+```ocaml
+type comparison = Less | Equal | Greater;;
 
+# module type ORDERED_TYPE =
+    sig
+      type t
+      val compare: t -> t -> comparison
+    end;;
+module type ORDERED_TYPE = sig type t val compare : t -> t -> comparison end
+# module Set =
+    functor (Elt: ORDERED_TYPE) ->
+      struct
+		...
+        let rec add x s =
+          match s with
+            [] -> [x]
+          | hd::tl ->
+             match Elt.compare x hd with
+               Equal   -> s         (* x is already in s *)
+             | Less    -> x :: s    (* x is smaller than all elements of s *)
+             | Greater -> hd :: add x tl
+		...
+      end;;
+# module OrderedString =
+    struct
+      type t = string
+      let compare x y = if x = y then Equal else if x < y then Less else Greater
+    end;;
+module OrderedString :
+  sig type t = string val compare : 'a -> 'a -> comparison end
+  
+# module StringSet = Set(OrderedString);; 
+  
+# StringSet.member "bar" (StringSet.add "foo" StringSet.empty);;
+- : bool = false
+
+# module AbstractSet2 =
+    (Set : functor(Elt: ORDERED_TYPE) -> (SET with type element = Elt.t));;
+```
+- Hard: [Functors and type abstraction](https://ocaml.org/manual/5.2/moduleexamples.html#s:functors-and-abstraction)
+5. In OCaml, compilation units are special cases of structures and signatures, and the relationship between the units can be explained easily in terms of the module system. A compilation unit A comprises two files:
+- the implementation file A.ml, which contains a sequence of definitions, analogous to the inside of a struct…end construct;
+- the interface file A.mli, which contains a sequence of specifications, analogous to the inside of a sig…end construct.
+```ocaml
+(* These two files together define a structure named A as if the following definition was entered at top-level *)
+module A: sig (* contents of file A.mli *) end
+        = struct (* contents of file A.ml *) end;;
+```
+The files that define the compilation units can be compiled separately using the `ocamlc -c` command (the -c option means *“compile only, do not try to link”*); this produces *compiled interface files* (with extension `.cmi`) and *compiled object code files* (with extension `.cmo`). When all units have been compiled, their .cmo files are linked together using the ocamlc command. For instance, the following commands compile and link a program composed of two compilation units Aux and Main:
+```ocaml
+$ ocamlc -c Aux.mli                     # produces aux.cmi
+$ ocamlc -c Aux.ml                      # produces aux.cmo
+$ ocamlc -c Main.mli                    # produces main.cmi
+$ ocamlc -c Main.ml                     # produces main.cmo
+$ ocamlc -o theprogram Aux.cmo Main.cmo
+```
+The program behaves exactly as if the following phrases were entered at top-level:
+```ocaml
+module Aux: sig (* contents of Aux.mli *) end
+          = struct (* contents of Aux.ml *) end;;
+module Main: sig (* contents of Main.mli *) end
+           = struct (* contents of Main.ml *) end;;
+```
+# Chapter 3 Objects in OCaml
 
 - [Compiler Development: Rust or OCaml?](https://hirrolot.github.io/posts/compiler-development-rust-or-ocaml.html#)
 - [The OCaml Manual](https://ocaml.org/manual/5.2/index.html#)
-- 
