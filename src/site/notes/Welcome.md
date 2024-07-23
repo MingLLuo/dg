@@ -1,8 +1,8 @@
 ---
-{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"noteIcon":"","created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-22T00:05:52.620+08:00"}
+{"dg-publish":true,"permalink":"/welcome/","tags":["gardenEntry"],"noteIcon":"","created":"2024-06-15T19:38:16.200+08:00","updated":"2024-07-22T11:26:16.208+08:00"}
 ---
 
-## Timeline
+ ## Timeline
 - [[Ways to maintain ideas and thoughts\|Ways to maintain ideas and thoughts]], with my personal used tools
 
 ## Knowledge

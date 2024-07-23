@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-22T00:05:25.115+08:00"}
+{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-22T18:50:58.868+08:00"}
 ---
 
 #OCaml #PL 
@@ -316,6 +316,260 @@ module Main: sig (* contents of Main.mli *) end
            = struct (* contents of Main.ml *) end;;
 ```
 # Chapter 3 Objects in OCaml
+This chapter gives an overview of the object-oriented features of OCaml.
+Note that the relationship between object, class and type in OCaml is different than in mainstream object-oriented languages such as Java and C++, so you shouldn’t assume that similar keywords mean the same thing. Object-oriented features are used much less frequently in OCaml than in those languages. OCaml has alternatives that are often more appropriate, such as modules and functors. Indeed, many OCaml programs do not use objects at all.
+```ocaml
+# class point x_init =
+    object
+      val mutable x = x_init
+      method get_x = x
+      method move d = x <- x + d
+    end;;
+class point :
+  int ->
+  object val mutable x : int method get_x : int method move : int -> unit end
 
+# new point;;
+- : int -> point = <fun>
+
+# let p = new point 7;;
+val p : point = <obj>
+
+p#get_x;;
+
+# class adjusted_point x_init =  point ((x_init / 10) * 10);;
+class adjusted_point : int -> point
+```
+1. Immediate objects: The syntax is exactly the same as for class expressions, but the result is a single object rather than a class.
+```ocaml
+# let p =
+    object
+      val mutable x = 0
+      method get_x = x
+      method move d = x <- x + d
+    end;;
+val p : < get_x : int; move : int -> unit > = <obj>
+```
+2. Self reference: A method or an initializer can invoke methods on self (that is, the current object). For that, self must be explicitly bound, here to the variable s (s could be any identifier, even though we will often choose the name self.)
+```ocaml
+# class printable_point x_init =
+    object (s)
+      val mutable x = x_init
+      method get_x = x
+      method move d = x <- x + d
+      method print = print_int s#get_x
+    end;;
+class printable_point :
+  int ->
+  object
+    val mutable x : int
+    method get_x : int
+    method move : int -> unit
+    method print : unit
+  end
+```
+3. Initializers: It is also possible to evaluate an expression immediately after the object has been built. Such code is written as an anonymous hidden method called an initializer. Therefore, it can access self and the instance variables.
+```ocaml
+# class printable_point x_init =
+    let origin = (x_init / 10) * 10 in
+    object (self)
+      val mutable x = origin
+      method get_x = x
+      method move d = x <- x + d
+      method print = print_int self#get_x
+      initializer print_string "new point at "; self#print; print_newline ()
+    end;;
+class printable_point :
+  int ->
+  object
+    val mutable x : int
+    method get_x : int
+    method move : int -> unit
+    method print : unit
+  end
+# let p = new printable_point 17;;
+new point at 10
+val p : printable_point = <obj>
+```
+4. Virtual methods: A class containing virtual methods must be flagged `virtual`, and cannot be instantiated (that is, no object of this class can be created). It still defines type abbreviations (treating virtual methods as other methods.)
+```ocaml
+# class virtual abstract_point x_init =
+    object (self)
+      method virtual get_x : int
+      method get_offset = self#get_x - x_init
+      method virtual move : int -> unit
+    end;;
+# class point x_init =
+    object
+      inherit abstract_point x_init
+      val mutable x = x_init
+      method get_x = x
+      method move d = x <- x + d
+    end;;
+(* Instance variables can also be declared as virtual, with the same effect as with methods. *)
+
+# class virtual abstract_point2 =
+    object
+      val mutable virtual x : int
+      method move d = x <- x + d
+    end;;
+class virtual abstract_point2 :
+  object val mutable virtual x : int method move : int -> unit end
+# class point2 x_init =
+    object
+      inherit abstract_point2
+      val mutable x = x_init
+      method get_offset = x - x_init
+    end;;
+class point2 :
+  int ->
+  object
+    val mutable x : int
+    method get_offset : int
+    method move : int -> unit
+  end
+```
+5. Private methods: Private methods are methods that do not appear in object interfaces. *They can only be invoked from other methods of the same object*.
+```ocaml
+# class restricted_point x_init =
+    object (self)
+      val mutable x = x_init
+      method get_x = x
+      method private move d = x <- x + d
+      method bump = self#move 1
+    end;;
+class restricted_point :
+  int ->
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method private move : int -> unit
+  end
+(* Private methods can be made public in a subclass. *)
+# class point_again x =
+    object (self)
+      inherit restricted_point x
+      method virtual move : _
+    end;;
+# class point_again x =
+    object (self : < move : _; ..> )
+      inherit restricted_point x
+    end;;
+# class point_again x =
+    object
+      inherit restricted_point x as super
+      method move = super#move
+    end;;
+class point_again :
+  int ->
+  object
+    val mutable x : int
+    method bump : unit
+    method get_x : int
+    method move : int -> unit
+  end
+```
+6. Parameterized classes: At least one of the methods has a polymorphic type (here, the type of the value stored in the reference cell), thus either the class should be parametric, or the method type should be constrained to a monomorphic type.
+```ocaml
+# class oref x_init =
+    object
+      val mutable x = x_init
+      method get = x
+      method set y = x <- y
+    end;;
+Error: Some type variables are unbound in this type:
+         class oref :
+           'a ->
+           object
+             val mutable x : 'a
+             method get : 'a
+             method set : 'a -> unit
+           end
+       The method get has type 'a where 'a is unbound
+(* A monomorphic instance of the class could be defined by *)
+# class oref (x_init:int) =
+    object
+      val mutable x = x_init
+      method get = x
+      method set y = x <- y
+    end;;
+class oref :
+  int ->
+  object val mutable x : int method get : int method set : int -> unit end
+(* Note that since immediate objects do not define a class type, they have no such restriction *)
+```
+- The type parameter in the declaration may actually be constrained in the body of the class definition. In the class type, the actual value of the type parameter is displayed in the constraint clause.
+```ocaml
+# class ['a] circle (c : 'a) =
+    object
+      val mutable center = c
+      method center = center
+      method set_center c = center <- c
+      method move = (center#move : int -> unit)
+    end;;
+class ['a] circle :
+  'a ->
+  object
+    constraint 'a = < move : int -> unit; .. >
+    val mutable center : 'a
+    method center : 'a
+    method move : int -> unit
+    method set_center : 'a -> unit
+  end
+```
+7. Polymorphic methods
+```ocaml
+(* giving an explicitly polymorphic type in the method definition *)
+# class intlist (l : int list) =
+    object
+      method empty = (l = [])
+      method fold : 'a. ('a -> int -> 'a) -> 'a -> 'a =
+        fun f accu -> List.fold_left f accu l
+    end;;
+class intlist :
+  int list ->
+  object method empty : bool method fold : ('a -> int -> 'a) -> 'a -> 'a end
+
+(* The following idiom separates description and definition. *)
+
+# class type ['a] iterator =
+    object method fold : ('b -> 'a -> 'b) -> 'b -> 'b end;;
+# class intlist' l =
+    object (self : int #iterator)
+      method empty = (l = [])
+      method fold f accu = List.fold_left f accu l
+    end;;
+```
+8. Functional objects: The override construct {< ... >} returns a copy of “self” (that is, the current object), possibly changing the value of some instance variables.
+```ocaml
+# class functional_point y =
+    object
+      val x = y
+      method get_x = x
+      method move d = {< x = x + d >}
+      method move_to x = {< x >}
+    end;;
+class functional_point :
+  int ->
+  object ('a)
+    val x : int
+    method get_x : int
+    method move : int -> 'a
+    method move_to : int -> 'a
+  end
+# let p = new functional_point 7;;
+val p : functional_point = <obj>
+# p#get_x;;
+- : int = 7
+# (p#move 3)#get_x;;
+- : int = 10
+# (p#move_to 15)#get_x;;
+- : int = 15
+# p#get_x;;
+- : int = 7
+```
 - [Compiler Development: Rust or OCaml?](https://hirrolot.github.io/posts/compiler-development-rust-or-ocaml.html#)
 - [The OCaml Manual](https://ocaml.org/manual/5.2/index.html#)
+- [Is the original OCaml compiler still available?](https://www.reddit.com/r/rust/comments/18b808/is_the_original_ocaml_compiler_still_available/)
+- [Flamebait question, I know. But why OCaml over Rust?](https://www.reddit.com/r/ocaml/comments/fefcfv/flamebait_question_i_know_but_why_ocaml_over_rust/)
