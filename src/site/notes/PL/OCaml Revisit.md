@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-22T18:50:58.868+08:00"}
+{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-23T16:31:29.760+08:00"}
 ---
 
 #OCaml #PL 
@@ -569,6 +569,107 @@ val p : functional_point = <obj>
 # p#get_x;;
 - : int = 7
 ```
+
+# Chapter 5 Polymorphic variants
+It is a variant tag does not belong to any type in particular, the type system will just check that it is an admissible value according to its use. You need not define a type before using a variant tag. A variant type will be inferred independently for each of its uses.
+1. In programs, polymorphic variants work like usual ones. You just have to prefix their names with a backquote character \`.
+```ocaml
+# [`On; `Off];;
+- : [> `Off | `On ] list = [`On; `Off]
+(* [>`Off|`On] list means that to match this list, you should at least be able to match `Off and `On, without argument *)
+# `Number 1;;
+- : [> `Number of int ] = `Number 1
+# let f = function `On -> 1 | `Off -> 0 | `Number n -> n;;
+val f : [< `Number of int | `Off | `On ] -> int = <fun>
+(* [<`On|`Off|`Number of int] means that f may be applied to `Off, `On (both without argument), or `Number n where n is an integer. *)
+# List.map f [`On; `Off];;
+- : int list = [1; 0]
+```
+- The `>` and `<` inside the variant types show that they may still be refined, either by defining more tags or by allowing less.
+- The above variant types were polymorphic, allowing further refinement. When writing type annotations, one will most often describe fixed variant types, that is types that cannot be refined. This is also the case for type abbreviations. Such types do not contain < or >, but just an enumeration of the tags and their associated types, just like in a normal datatype definition.
+```ocaml
+# type 'a vlist = [`Nil | `Cons of 'a * 'a vlist];;
+type 'a vlist = [ `Cons of 'a * 'a vlist | `Nil ]
+# let rec map f : 'a vlist -> 'b vlist = function
+    | `Nil -> `Nil
+    | `Cons(a, l) -> `Cons(f a, map f l)
+  ;;
+val map : ('a -> 'b) -> 'a vlist -> 'b vlist = <fun>
+```
+2. Type-checking polymorphic variants is a subtle thing, and some expressions may result in more complex type information.
+```ocaml
+# let f = function `A -> `C | `B -> `D | x -> x;;
+val f : ([> `A | `B | `C | `D ] as 'a) -> 'a = <fun>
+# f `E;;
+- : [> `A | `B | `C | `D | `E ] = `E
+(* If we apply f to yet another tag `E, it gets added to the list. *)
+# f `A;;
+- : [> `A | `B | `C | `D ] = `C
+```
+- First, since this matching is open (the last case catches any tag), we obtain the type \[> \`A | \`B] rather than \[< \`A | \`B] in a closed matching
+- Then, since x is returned as is, input and return types are identical. The notation as 'a denotes such type sharing.
+```ocaml
+# let f1 = function `A x -> x = 1 | `B -> true | `C -> false
+  let f2 = function `A x -> x = "a" | `B -> true ;;
+val f1 : [< `A of int | `B | `C ] -> bool = <fun>
+val f2 : [< `A of string | `B ] -> bool = <fun>
+# let f x = f1 x && f2 x;;
+val f : [< `A of string & int | `B ] -> bool = <fun>
+(** Here f1 and f2 both accept the variant tags `A and `B, but the argument of `A is int for f1 and string for f2. In f’s type `C, only accepted by f1, disappears, but both argument types appear for `A as int & string. This means that if we pass the variant tag `A to f, its argument should be _both_ int and string. Since there is no such value, f cannot be applied to `A, and `B is the only accepted input. **)
+```
+- Even if a value has a fixed variant type, one can still give it a larger type through coercions. Coercions are normally written with both the source type and the destination type, but in simple cases the source type may be omitted.
+```ocaml
+# type 'a wlist = [`Nil | `Cons of 'a * 'a wlist | `Snoc of 'a wlist * 'a];;
+type 'a wlist = [ `Cons of 'a * 'a wlist | `Nil | `Snoc of 'a wlist * 'a ]
+# let wlist_of_vlist  l = (l : 'a vlist :> 'a wlist);;
+val wlist_of_vlist : 'a vlist -> 'a wlist = <fun>
+# let open_vlist l = (l : 'a vlist :> [> 'a vlist]);;
+val open_vlist : 'a vlist -> [> 'a vlist ] = <fun>
+# fun x -> (x :> [`A|`B|`C]);;
+- : [< `A | `B | `C ] -> [ `A | `B | `C ] = <fun>
+# let split_cases = function
+    | `Nil | `Cons _ as x -> `A x
+    | `Snoc _ as x -> `B x
+  ;;
+val split_cases :
+  [< `Cons of 'a | `Nil | `Snoc of 'b ] ->
+  [> `A of [> `Cons of 'a | `Nil ] | `B of [> `Snoc of 'b ] ] = <fun>
+```
+- When an or-pattern composed of variant tags is wrapped inside an alias-pattern, the alias is given a type containing only the tags enumerated in the or-pattern. This allows for many useful idioms, like *incremental definition of functions.*
+```ocaml
+# let num x = `Num x
+  let eval1 eval (`Num x) = x
+  let rec eval x = eval1 eval x ;;
+val num : 'a -> [> `Num of 'a ] = <fun>
+val eval1 : 'a -> [< `Num of 'b ] -> 'b = <fun>
+val eval : [< `Num of 'a ] -> 'a = <fun>
+# let plus x y = `Plus(x,y)
+  let eval2 eval = function
+    | `Plus(x,y) -> eval x + eval y
+    | `Num _ as x -> eval1 eval x
+  let rec eval x = eval2 eval x ;;
+val plus : 'a -> 'b -> [> `Plus of 'a * 'b ] = <fun>
+val eval2 : ('a -> int) -> [< `Num of int | `Plus of 'a * 'a ] -> int = <fun>
+val eval : ([< `Num of int | `Plus of 'a * 'a ] as 'a) -> int 
+
+
+type myvariant = [`Tag1 of int | `Tag2 of bool]
+(* #myvariant equivalent to writing (`Tag1(_ : int) | `Tag2(_ : bool)) *)
+# let f = function
+    | #myvariant -> "myvariant"
+    | `Tag3 -> "Tag3";;
+val f : [< `Tag1 of int | `Tag2 of bool | `Tag3 ] -> string = <fun>
+# let g1 = function `Tag1 _ -> "Tag1" | `Tag2 _ -> "Tag2";;
+val g1 : [< `Tag1 of 'a | `Tag2 of 'b ] -> string = <fun>
+# let g = function
+    | #myvariant as x -> g1 x
+    | `Tag3 -> "Tag3";;
+val g : [< `Tag1 of int | `Tag2 of bool | `Tag3 ] -> string
+```
+# Chapter 6 Polymorphism and its limitations
+- TODO
+
+# Chapter 7 Generalized algebraic datatypes
 - [Compiler Development: Rust or OCaml?](https://hirrolot.github.io/posts/compiler-development-rust-or-ocaml.html#)
 - [The OCaml Manual](https://ocaml.org/manual/5.2/index.html#)
 - [Is the original OCaml compiler still available?](https://www.reddit.com/r/rust/comments/18b808/is_the_original_ocaml_compiler_still_available/)
