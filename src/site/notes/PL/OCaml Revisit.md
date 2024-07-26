@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-23T16:31:29.760+08:00"}
+{"dg-publish":true,"permalink":"/pl/o-caml-revisit/","noteIcon":"","created":"2024-07-21T04:17:21.814+08:00","updated":"2024-07-27T03:28:10.138+08:00"}
 ---
 
 #OCaml #PL 
@@ -670,6 +670,116 @@ val g : [< `Tag1 of int | `Tag2 of bool | `Tag3 ] -> string
 - TODO
 
 # Chapter 7 Generalized algebraic datatypes
+Generalized algebraic datatypes, or GADTs, extend usual sum types(ADT) in two ways
+- constraints on type parameters may change depending on the value constructor
+- some type variables may be existentially quantified
+Adding constraints is done by giving an explicit return type, where type parameters are instantiated:
+```ocaml
+type _ term =
+  | Int : int -> int term
+  | Add : (int -> int -> int) term
+  | App : ('b -> 'a) term * 'b term -> 'a term
+```
+This return type must use the same type constructor as the type being defined, and have the same number of parameters.
+>The constraints associated to each constructor can be recovered through pattern-matching. Namely, if the type of the scrutinee of a pattern-matching contains a locally abstract type, this type can be refined according to the constructor used. These extra constraints are only valid inside the corresponding branch of the pattern-matching. If a constructor has some existential variables, fresh locally abstract types are generated, and they must not escape the scope of this branch.
+
+1. Recursive functions
+```ocaml
+let rec eval : type a. a term -> a = function
+  | Int n    -> n                 (* a = int *)
+  | Add      -> (fun x y -> x+y)  (* a = int -> int -> int *)
+  | App(f,x) -> (eval f) (eval x)
+          (* eval called at types (b->a) and b for fresh b *)
+
+(* And use it *)
+let two = eval (App (App (Add, Int 1), Int 1))
+val two : int = 2
+```
+It is **important** to remark that the function eval is using *the polymorphic syntax* for locally abstract types. When defining a recursive function that manipulates a GADT, explicit polymorphic recursion should generally be used. For instance, the following definition fails with a type error:
+```ocaml
+let rec eval (type a) : a term -> a = function
+  | Int n    -> n
+  | Add      -> (fun x y -> x+y)
+  | App(f,x) -> (eval f) (eval x)
+Error: This expression has type ($b -> a) term
+       but an expression was expected of type 'a
+       The type constructor $b would escape its scope
+       Hint: $b is an existential type bound by the constructor App.
+(* happens in the branch App(f,x) when eval is called with f as an argument. In this branch, the type of f is ($App_'b -> a) term. The prefix $ in $App_'b denotes an existential type named by the compiler. Since the type of eval is 'a term -> 'a, the call eval f makes the existential type $App_'b flow to the type variable 'a and escape its scope. This triggers the above error. *)
+```
+In absence of an explicit polymorphic annotation, a monomorphic type is inferred for the recursive function. If a recursive call occurs inside the function definition at a type that involves an existential GADT type variable, this variable flows to the type of the recursive function, and thus escapes its scope.
+
+2. Type inference for GADTs is notoriously hard. This is due to the fact some types may become ambiguous when escaping from a branch.
+	- The Int case above, n could have either type int or a, and they are not equivalent outside of that branch. 
+	- As a first approximation, type inference will always work if a pattern-matching is annotated with types containing no free type variables (both on the scrutinee and the return type). 
+	- This is the case in the above example, thanks to the type annotation containing only locally abstract types.
+
+The exhaustiveness check is aware of GADT constraints, and can automatically infer that some cases cannot happen. For instance, the following pattern matching is correctly seen as exhaustive (the Add case cannot happen).
+```ocaml
+let get_int : int term -> int = function
+  | Int n    -> n
+  | App(_,_) -> 0
+```
+
+# Chapter 9 Parallel programming
+OCaml distinguishes concurrency and parallelism and provides distinct mechanisms for expressing them. Concurrency is overlapped execution of tasks (section [12.24.2](https://ocaml.org/manual/5.2/effects.html#s%3Aeffects-concurrency)) whereas parallelism is simultaneous execution of tasks. In particular, parallel tasks overlap in time but concurrent tasks may or may not overlap in time. Tasks may execute concurrently by yielding control to each other. While concurrency is a program structuring mechanism, parallelism is a mechanism to make your programs run faster. If you are interested in the concurrent programming mechanisms in OCaml, please refer to the section [12.24](https://ocaml.org/manual/5.2/effects.html#s%3Aeffect-handlers) on effect handlers and the chapter [34](https://ocaml.org/manual/5.2/libthreads.html#c%3Athreads) on the threads library.
+
+1. Let us attempt to parallelise the Fibonacci function. The two recursive calls may be executed in parallel. However, naively parallelising the recursive calls by spawning domains for each one will not work as it spawns too many domains.
+```ocaml
+(* fib_par1.ml *)
+let n = try int_of_string Sys.argv.(1) with _ -> 1
+
+let rec fib n =
+  if n < 2 then 1 else begin
+    let d1 = Domain.spawn (fun _ -> fib (n - 1)) in
+    let d2 = Domain.spawn (fun _ -> fib (n - 2)) in
+    Domain.join d1 + Domain.join d2
+  end
+
+let main () =
+  let r = fib n in
+  Printf.printf "fib(%d) = %d\n%!" n r
+
+let _ = main ()
+
+ocamlopt -o fib_par1.exe fib_par1.ml
+$ ./fib_par1.exe 42
+Fatal error: exception Failure("failed to allocate domain")
+```
+- OCaml has a limit of 128 domains that can be active at the same time. An attempt to spawn more domains will raise an exception. How then can we parallelise the Fibonacci function?
+
+2. The OCaml standard library provides *only low-level primitives* for concurrent and parallel programming, leaving high-level programming libraries to be developed and distributed outside the core compiler distribution. [Domainslib](https://github.com/ocaml-multicore/domainslib) is such a library for nested-parallel programming, which is epitomised by the parallelism available in the recursive Fibonacci computation. Let us use domainslib to parallelise the recursive Fibonacci program.
+- Domainslib provides an async/await mechanism for spawning parallel tasks and awaiting their results. On top of this mechanism, domainslib provides parallel iterators. At its core, domainslib has an efficient implementation of *[[Parallel/work-stealing queue\|work-stealing queue]]* in order to efficiently share tasks with other domains. A parallel implementation of the Fibonacci program is given below.
+```ocaml
+(* fib_par2.ml *)
+let num_domains = int_of_string Sys.argv.(1)
+let n = int_of_string Sys.argv.(2)
+
+let rec fib n = if n < 2 then 1 else fib (n - 1) + fib (n - 2)
+
+module T = Domainslib.Task
+
+let rec fib_par pool n =
+  if n > 20 then begin
+    let a = T.async pool (fun _ -> fib_par pool (n-1)) in
+    let b = T.async pool (fun _ -> fib_par pool (n-2)) in
+    T.await pool a + T.await pool b
+  end else fib n
+
+let main () =
+  let pool = T.setup_pool ~num_domains:(num_domains - 1) () in
+  let res = T.run pool (fun _ -> fib_par pool n) in
+  T.teardown_pool pool;
+  Printf.printf "fib(%d) = %d\n" n res
+
+let _ = main ()
+```
+3. Parallel garbage collection
+- An important aspect of the scalability of parallel OCaml programs is the scalability of the garbage collector (GC). The OCaml GC is designed to have both low latency and good parallel scalability. OCaml has a generational garbage collector with a small minor heap and a large major heap. 
+- New objects (upto a certain size) are allocated in the minor heap. Each domain has its own domain-local minor heap arena into which new objects are allocated without synchronising with the other domains. When a domain exhausts its minor heap arena, it calls for a stop-the-world collection of the minor heaps. In the stop-the-world section, all the domains collect their minor heap arenas in parallel evacuating the survivors to the major heap.
+- For the major heap, each domain maintains domain-local, size-segmented pools of memory into which large objects and survivors from the minor collection are allocated. Having domain-local pools avoids synchronisation for most major heap allocations. The major heap is collected by a concurrent mark-and-sweep algorithm that involves a few short stop-the-world pauses for each major cycle.
+- Overall, the users should expect the garbage collector to scale well with increasing number of domains, with the latency remaining low. For more information on the design and evaluation of the garbage collector, please have a look at the ICFP 2020 paper on [Retrofitting Parallelism onto OCaml](https://arxiv.org/abs/2004.11663).
+
 - [Compiler Development: Rust or OCaml?](https://hirrolot.github.io/posts/compiler-development-rust-or-ocaml.html#)
 - [The OCaml Manual](https://ocaml.org/manual/5.2/index.html#)
 - [Is the original OCaml compiler still available?](https://www.reddit.com/r/rust/comments/18b808/is_the_original_ocaml_compiler_still_available/)
